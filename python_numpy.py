@@ -44,8 +44,7 @@ C = np.array([[1, 2], [3, 4]])
 D = np.array([10, 20])
 print("C = {}".format(C))
 print("D = {}".format(D))
-# ブロードキャスト機能
-print(C + D)
+print("print C + D :{}".format(C + D))
 
 
 
@@ -59,4 +58,5 @@ print("C_flatten = {}".format(C))
 print( C > 2 )
 
 # trueに対応する要素を取り出す
+# ブロードキャスト機能
 print(C[C > 2])
