@@ -32,7 +32,7 @@ print("dot of f and g:{}".format(np.dot(F, G)))
 
 H = np.array([1, 2, 3])
 print("H shape:{}".format(H.shape))
+print("shape of F matrix:{}".format(F.shape))
 print("dot of f and h:{}".format(np.dot(F, H)))
-
 
 
