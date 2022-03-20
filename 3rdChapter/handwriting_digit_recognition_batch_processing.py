@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 import numpy as np
 import pickle
 sys.path.append("../")
@@ -26,6 +27,7 @@ from deep_learning_from_scratch.common.functions import sigmoid, softmax
 #    pil_img.show()
 
 
+
 def get_data():
     (x_train, t_train), (x_test, t_test) = load_mnist(flatten=True, normalize=False, one_hot_label=False) 
     return x_test, t_test
@@ -35,7 +37,6 @@ def init_network():
     with open("sample_weight.pkl", 'rb') as f:
         network = pickle.load(f)
         return network
-
 
 
 def predict(network, x):
@@ -55,6 +56,8 @@ def predict(network, x):
 x, t = get_data()
 network = init_network()
 accuracy_cnt = 0
+
+start = time.time()
 for i in range(len(x)):
     y = predict(network, x[i])
     p = np.argmax(y)
@@ -62,5 +65,20 @@ for i in range(len(x)):
         accuracy_cnt += 1
 
 
-
+elapsed_time_non_batch = time.time() - start
 print('accuracy:' + str(float((accuracy_cnt / len(x)))))
+print(f"processing time is {elapsed_time_non_batch}")
+
+accuracy_cnt = 0
+batch_size = 100
+start = time.time()
+for i in range(0, len(x), batch_size):
+    x_batch = x[i:i+batch_size]
+    y_batch = predict(network, x_batch)
+    p = np.argmax(y_batch, axis=1)
+    accuracy_cnt += np.sum(p == t[i:i+batch_size])
+
+elapsed_time_batch = time.time() - start
+print('accuracy:' + str(float((accuracy_cnt / len(x)))))
+print(f"processing time is {elapsed_time_batch}")
+
